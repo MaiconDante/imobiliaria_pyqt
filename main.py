@@ -1,16 +1,17 @@
 # Arquivo principal da aplicação
 
 # Importando Biblioteca e Classes
-from PyQt6.QtWidgets import QApplication, QWidget
+from PyQt6.QtWidgets import QApplication
+from windows import MainWindow
 
+# Cria a aplicação
 app = QApplication([])
 
-window = QWidget()
-# Define o título da janela
-window.setWindowTitle("Sistema de Cadastro de Imóveis da Imobiliária")
-# Define (LarguraxAltura) da janela
-window.resize(800, 600)
-# Exibi a janela
-window.show()
+# Instancia janela
+display_main = MainWindow()
 
+# Exibo a tela principal
+display_main.show()
+
+# Mantém a aplicação rodando
 app.exec()
