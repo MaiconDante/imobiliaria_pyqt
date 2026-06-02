@@ -13,6 +13,8 @@ class MainWindow(QWidget):
     def __init__(self):
         super().__init__()
 
+        self.imoveis = []
+
         # Define o título da janela
         self.setWindowTitle("Sistema de Cadastro de Imóveis da Imobiliária")
         # Define (Largura x Altura) da janela
@@ -190,6 +192,7 @@ class MainWindow(QWidget):
             return
 
         dados = self.obter_dados_formulario()
+        self.imoveis.append(dados)
 
         QMessageBox.information(
             self,
@@ -197,5 +200,4 @@ class MainWindow(QWidget):
             "Imóvel validado com sucesso."
         )
         self.limpar_campos()
-        return dados
         
