@@ -16,6 +16,7 @@ class MainWindow(QWidget):
         super().__init__()
 
         self.imoveis = []
+        self.imovel_selecionado = None
         self.tabela = QTableWidget()
         self.tabela.setColumnCount(7)
         self.tabela.setHorizontalHeaderLabels([
@@ -35,10 +36,12 @@ class MainWindow(QWidget):
         self.resize(800, 600)
         # Cria um organizador vertical
         layout = QFormLayout()
+
         # [LABELS] Texto que será exibido dentro da janela - [CRIA O COMPONENTE]
         titulo = QLabel("Cadastro de Imóveis")
         informacao = QLabel("Sistema desenvolvido em PyQt6")
         versao = QLabel("Versão 1.0")
+
         # [INPUTS] Campos de texto para usuário digitar, que será exibido dentro da janela - [CRIA O COMPONENTE]
         self.input_codigo = QLineEdit()
         self.input_codigo.setPlaceholderText("Digite o código do Imóvel")
@@ -48,9 +51,13 @@ class MainWindow(QWidget):
         self.input_bairro.setPlaceholderText("Digite o bairro do Imóvel")
         self.input_cidade = QLineEdit()
         self.input_cidade.setPlaceholderText("Digite a cidade do Imóvel")
+
         # [BUTTONS] Botões de ação
         btn_salvar = QPushButton("Salvar Imóvel")
         btn_salvar.clicked.connect(self.salvar_imovel)
+        btn_atualizar = QPushButton("Atualizar Imóvel")
+        btn_atualizar.clicked.connect(self.atualizar_imovel)
+
         # [COMBOBOX] Adiciona campo de escolhas de opções
         self.combo_tipo = QComboBox()
         self.combo_tipo.addItems([
@@ -77,6 +84,7 @@ class MainWindow(QWidget):
             "A Liberar"
         ])
         self.combo_status.setCurrentText("Selecione uma opção")
+
         # Adiciona o texto na janela - [COLOCA O COMPONENTE NA TELA]
         layout.addRow(titulo)
         layout.addRow(
@@ -114,6 +122,7 @@ class MainWindow(QWidget):
         layout.addRow(versao)
         layout.addRow(self.tabela)
         layout.addRow(btn_salvar)
+        layout.addRow(btn_atualizar)
 
         # Aqui diz esta janela usará este layout
         self.setLayout(layout)
@@ -233,7 +242,8 @@ class MainWindow(QWidget):
             self.tabela.setItem(linha, 6, QTableWidgetItem(imovel["status"]))
         
     def selecionar_imovel(self, linha, coluna):
-        
+         
+         self.imovel_selecionado = linha 
          imovel = self.imoveis[linha]
 
          self.input_codigo.setText(imovel["codigo"])
@@ -243,3 +253,30 @@ class MainWindow(QWidget):
          self.combo_tipo.setCurrentText(imovel["tipo"])
          self.combo_finalidade.setCurrentText(imovel["finalidade"])
          self.combo_status.setCurrentText(imovel["status"])
+
+    def atualizar_imovel(self):
+
+        if self.imovel_selecionado is None:
+            QMessageBox.warning(
+                self,
+                "Atenção",
+                "Selecione um imóvel na tabela para atualizar."
+            )
+            return
+        
+        if not self.validar_campos():
+            return
+        
+        dados = self.obter_dados_formulario()
+        self.imoveis[self.imovel_selecionado] = dados
+        self.atualizar_tabela()
+
+        QMessageBox.information(
+            self,
+            "Sucesso",
+            "Imóvel atualizado com sucesso!"
+        )
+
+        self.limpar_campos()
+        self.imovel_selecionado = None
+    
