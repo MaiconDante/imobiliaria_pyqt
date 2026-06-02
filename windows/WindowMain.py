@@ -4,7 +4,8 @@ from PyQt6.QtWidgets import (
     QLabel,
     QLineEdit,
     QPushButton,
-    QComboBox
+    QComboBox,
+    QMessageBox
 )
 
 class MainWindow(QWidget):
@@ -95,9 +96,8 @@ class MainWindow(QWidget):
         self.setLayout(layout)
 
     def salvar_imovel(self):
-        texto_atual = self.windowTitle()
-
-        if texto_atual == "Sistema de Cadastro de Imóveis da Imobiliária":
-            self.setWindowTitle(self.combo_status.currentText())
-        else:
-            self.setWindowTitle("Sistema de Cadastro de Imóveis da Imobiliária")
+        QMessageBox.information(
+            self,
+            "Sucesso",
+            "Imóvel salvo com sucesso!"
+        )
