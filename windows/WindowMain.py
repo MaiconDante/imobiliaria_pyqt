@@ -27,6 +27,7 @@ class MainWindow(QWidget):
             "Finalidade",
             "Status"
         ])
+        self.tabela.cellClicked.connect(self.selecionar_imovel)
 
         # Define o título da janela
         self.setWindowTitle("Sistema de Cadastro de Imóveis da Imobiliária")
@@ -231,3 +232,14 @@ class MainWindow(QWidget):
             self.tabela.setItem(linha, 5, QTableWidgetItem(imovel["finalidade"]))
             self.tabela.setItem(linha, 6, QTableWidgetItem(imovel["status"]))
         
+    def selecionar_imovel(self, linha, coluna):
+        
+         imovel = self.imoveis[linha]
+
+         self.input_codigo.setText(imovel["codigo"])
+         self.input_endereco.setText(imovel["endereco"])
+         self.input_bairro.setText(imovel["bairro"])
+         self.input_cidade.setText(imovel["cidade"])
+         self.combo_tipo.setCurrentText(imovel["tipo"])
+         self.combo_finalidade.setCurrentText(imovel["finalidade"])
+         self.combo_status.setCurrentText(imovel["status"])
