@@ -57,6 +57,8 @@ class MainWindow(QWidget):
         btn_salvar.clicked.connect(self.salvar_imovel)
         btn_atualizar = QPushButton("Atualizar Imóvel")
         btn_atualizar.clicked.connect(self.atualizar_imovel)
+        btn_excluir = QPushButton("Excluir Imóvel")
+        btn_excluir.clicked.connect(self.excluir_imovel)
 
         # [COMBOBOX] Adiciona campo de escolhas de opções
         self.combo_tipo = QComboBox()
@@ -123,6 +125,7 @@ class MainWindow(QWidget):
         layout.addRow(self.tabela)
         layout.addRow(btn_salvar)
         layout.addRow(btn_atualizar)
+        layout.addRow(btn_excluir)
 
         # Aqui diz esta janela usará este layout
         self.setLayout(layout)
@@ -279,4 +282,35 @@ class MainWindow(QWidget):
 
         self.limpar_campos()
         self.imovel_selecionado = None
+
+    def excluir_imovel(self):
+
+        if self.imovel_selecionado is None:
+            QMessageBox.warning(
+                self,
+                "Atenção",
+                "Selecione um imóvel para excluir."
+            )
+            return
+        
+        resposta = QMessageBox.question(
+                self,
+                "Confirmação",
+                "Tem certeza que deseja excluir este imóvel?",
+                QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
+        )
+
+        if resposta != QMessageBox.StandardButton.Yes:
+            return
+        
+        del self.imoveis[self.imovel_selecionado]
+        self.atualizar_tabela()
+        self.limpar_campos()
+        self.imovel_selecionado = None
+
+        QMessageBox.information(
+            self,
+            "Sucesso",
+            "Imóvel excluído com sucesso!"
+        )
     
