@@ -5,7 +5,9 @@ from PyQt6.QtWidgets import (
     QLineEdit,
     QPushButton,
     QComboBox,
-    QMessageBox
+    QMessageBox,
+    QTableWidget,
+    QTableWidgetItem
 )
 
 class MainWindow(QWidget):
@@ -14,6 +16,17 @@ class MainWindow(QWidget):
         super().__init__()
 
         self.imoveis = []
+        self.tabela = QTableWidget()
+        self.tabela.setColumnCount(7)
+        self.tabela.setHorizontalHeaderLabels([
+            "Código",
+            "Endereço",
+            "Cidade",
+            "Bairro",
+            "Tipo",
+            "Finalidade",
+            "Status"
+        ])
 
         # Define o título da janela
         self.setWindowTitle("Sistema de Cadastro de Imóveis da Imobiliária")
@@ -98,7 +111,9 @@ class MainWindow(QWidget):
         )
         layout.addRow(informacao)
         layout.addRow(versao)
+        layout.addRow(self.tabela)
         layout.addRow(btn_salvar)
+
         # Aqui diz esta janela usará este layout
         self.setLayout(layout)
 
@@ -193,6 +208,7 @@ class MainWindow(QWidget):
 
         dados = self.obter_dados_formulario()
         self.imoveis.append(dados)
+        self.atualizar_tabela()
 
         QMessageBox.information(
             self,
@@ -200,4 +216,18 @@ class MainWindow(QWidget):
             "Imóvel validado com sucesso."
         )
         self.limpar_campos()
+
+    def atualizar_tabela(self):
+
+        self.tabela.setRowCount(len(self.imoveis))
+
+        for linha, imovel in enumerate(self.imoveis):
+
+            self.tabela.setItem(linha, 0, QTableWidgetItem(imovel["codigo"]))
+            self.tabela.setItem(linha, 1, QTableWidgetItem(imovel["endereco"]))
+            self.tabela.setItem(linha, 2, QTableWidgetItem(imovel["cidade"]))
+            self.tabela.setItem(linha, 3, QTableWidgetItem(imovel["bairro"]))
+            self.tabela.setItem(linha, 4, QTableWidgetItem(imovel["tipo"]))
+            self.tabela.setItem(linha, 5, QTableWidgetItem(imovel["finalidade"]))
+            self.tabela.setItem(linha, 6, QTableWidgetItem(imovel["status"]))
         
