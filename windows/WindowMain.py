@@ -38,24 +38,29 @@ class MainWindow(QWidget):
         # [COMBOBOX] Adiciona campo de escolhas de opções
         self.combo_tipo = QComboBox()
         self.combo_tipo.addItems([
+            "Selecione uma opção",
             "Casa",
             "Apartamento",
             "Terreno"
         ])
+        self.combo_tipo.setCurrentText("Selecione uma opção")
         self.combo_finalidade = QComboBox()
         self.combo_finalidade.addItems([
+            "Selecione uma opção",
             "Venda",
             "Locação",
             "Venda e Locação"
         ])
-        self.combo_finalidade.setCurrentText("Venda e Locação")
+        self.combo_finalidade.setCurrentText("Selecione uma opção") # Apenas para saber se quiser priorizar alguma opção
         self.combo_status = QComboBox()
         self.combo_status.addItems([
+            "Selecione uma opção",
             "Disponível",
             "Locado",
             "Vendido",
             "A Liberar"
         ])
+        self.combo_status.setCurrentText("Selecione uma opção")
         # Adiciona o texto na janela - [COLOCA O COMPONENTE NA TELA]
         layout.addRow(titulo)
         layout.addRow(
@@ -95,9 +100,102 @@ class MainWindow(QWidget):
         # Aqui diz esta janela usará este layout
         self.setLayout(layout)
 
+    def validar_campos(self):
+
+        if not self.input_codigo.text():
+            QMessageBox.warning(
+                self,
+                "Atenção",
+                "Informe o código do imóvel."
+            )
+            return False
+
+        if not self.input_endereco.text():
+            QMessageBox.warning(
+                self,
+                "Atenção",
+                "Informe o endereço do imóvel."
+            )
+            return False
+
+        if not self.input_bairro.text():
+            QMessageBox.warning(
+                self,
+                "Atenção",
+                "Informe o bairro do imóvel."
+            )
+            return False
+
+        if not self.input_cidade.text():
+            QMessageBox.warning(
+                self,
+                "Atenção",
+                "Informe a cidade do imóvel."
+            )
+            return False
+
+        if self.combo_tipo.currentText() == "Selecione uma opção":
+            QMessageBox.warning(
+                self,
+                "Atenção",
+                "Selecione o tipo do imóvel."
+            )
+            return False
+
+        if self.combo_finalidade.currentText() == "Selecione uma opção":
+            QMessageBox.warning(
+                self,
+                "Atenção",
+                "Selecione a finalidade."
+            )
+            return False
+
+        if self.combo_status.currentText() == "Selecione uma opção":
+            QMessageBox.warning(
+                self,
+                "Atenção",
+                "Selecione o status do imóvel."
+            )
+            return False
+
+        return True
+                
+
+    def obter_dados_formulario(self):
+
+        dados = {
+            "codigo": self.input_codigo.text(),
+            "endereco": self.input_endereco.text(),
+            "cidade": self.input_cidade.text(),
+            "bairro": self.input_bairro.text(),
+            "tipo": self.combo_tipo.currentText(),
+            "finalidade": self.combo_finalidade.currentText(),
+            "status": self.combo_status.currentText()
+        }
+
+        return dados
+    
+    def limpar_campos(self):
+        self.input_codigo.clear()
+        self.input_endereco.clear()
+        self.input_bairro.clear()
+        self.input_cidade.clear()
+        self.combo_tipo.setCurrentIndex(0)
+        self.combo_finalidade.setCurrentIndex(0)
+        self.combo_status.setCurrentIndex(0)
+
     def salvar_imovel(self):
+
+        if not self.validar_campos():
+            return
+
+        dados = self.obter_dados_formulario()
+
         QMessageBox.information(
             self,
             "Sucesso",
-            "Imóvel salvo com sucesso!"
+            "Imóvel validado com sucesso."
         )
+        self.limpar_campos()
+        return dados
+        
