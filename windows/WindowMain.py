@@ -1,6 +1,6 @@
 from PyQt6.QtWidgets import (
     QWidget,
-    QVBoxLayout,
+    QFormLayout,
     QLabel,
     QLineEdit,
     QPushButton
@@ -16,12 +16,9 @@ class MainWindow(QWidget):
         # Define (Largura x Altura) da janela
         self.resize(800, 600)
         # Cria um organizador vertical
-        layout = QVBoxLayout()
+        layout = QFormLayout()
         # [LABELS] Texto que será exibido dentro da janela - [CRIA O COMPONENTE]
         titulo = QLabel("Cadastro de Imóveis")
-        label_codigo = QLabel("Código do Imóvel")
-        label_endereco = QLabel("Endereço do Imóvel")
-        label_cidade = QLabel("Cidade do Imóvel")
         informacao = QLabel("Sistema desenvolvido em PyQt6")
         versao = QLabel("Versão 1.0")
         # [INPUTS] Campos de texto para usuário digitar, que será exibido dentro da janela - [CRIA O COMPONENTE]
@@ -29,22 +26,37 @@ class MainWindow(QWidget):
         self.input_codigo.setPlaceholderText("Digite o código do Imóvel")
         self.input_endereco = QLineEdit()
         self.input_endereco.setPlaceholderText("Digite o endereço do Imóvel")
+        self.input_bairro = QLineEdit()
+        self.input_bairro.setPlaceholderText("Digite o bairro do Imóvel")
         self.input_cidade = QLineEdit()
         self.input_cidade.setPlaceholderText("Digite a cidade do Imóvel")
         # [BUTTONS] Botões de ação
         btn_salvar = QPushButton("Salvar Imóvel")
         btn_salvar.clicked.connect(self.salvar_imovel)
         # Adiciona o texto na janela - [COLOCA O COMPONENTE NA TELA]
-        layout.addWidget(titulo)
-        layout.addWidget(label_codigo)
-        layout.addWidget(self.input_codigo)
-        layout.addWidget(label_endereco)
-        layout.addWidget(self.input_endereco)
-        layout.addWidget(label_cidade)
-        layout.addWidget(self.input_cidade)
-        layout.addWidget(informacao)
-        layout.addWidget(versao)
-        layout.addWidget(btn_salvar)
+        layout.addRow(titulo)
+        layout.addRow(
+            "Código do Imóvel:",
+            self.input_codigo
+        )
+
+        layout.addRow(
+            "Endereço do Imóvel:",
+            self.input_endereco
+        )
+
+        layout.addRow(
+            "Bairro do Imóvel:",
+            self.input_bairro
+        )
+
+        layout.addRow(
+            "Cidade do Imóvel:",
+            self.input_cidade
+        )
+        layout.addRow(informacao)
+        layout.addRow(versao)
+        layout.addRow(btn_salvar)
         # Aqui diz esta janela usará este layout
         self.setLayout(layout)
 
