@@ -1,3 +1,5 @@
+from PyQt6.QtCore import Qt
+from PyQt6.QtGui import QPixmap
 from PyQt6.QtWidgets import (
     QWidget,
     QFormLayout,
@@ -7,7 +9,9 @@ from PyQt6.QtWidgets import (
     QComboBox,
     QMessageBox,
     QTableWidget,
-    QTableWidgetItem
+    QTableWidgetItem,
+    QHBoxLayout,
+    QVBoxLayout,
 )
 
 class MainWindow(QWidget):
@@ -34,11 +38,21 @@ class MainWindow(QWidget):
         self.setWindowTitle("Sistema de Cadastro de Imóveis da Imobiliária")
         # Define (Largura x Altura) da janela
         self.resize(800, 600)
-        # Cria um organizador vertical
-        layout = QFormLayout()
+
+        # Cria container principal vertical
+        main_layout = QVBoxLayout()
+        header_layout = QHBoxLayout()
+        form_layout = QFormLayout()
+        table_layout = QFormLayout()
+        buttons_layout = QHBoxLayout()
+        footer_layout = QHBoxLayout()
 
         # [LABELS] Texto que será exibido dentro da janela - [CRIA O COMPONENTE]
-        titulo = QLabel("Cadastro de Imóveis")
+        logotipo = QLabel()
+        logotipo.setPixmap(QPixmap("assets/images/pyassessoria.png").scaled(40, 40))
+        titulo = QLabel("Sistema de Cadastro de Imóveis")
+        titulo.setObjectName("titulo")
+        titulo.setAlignment(Qt.AlignmentFlag.AlignCenter)
         informacao = QLabel("Sistema desenvolvido em PyQt6")
         versao = QLabel("Versão 1.0")
 
@@ -88,47 +102,55 @@ class MainWindow(QWidget):
         self.combo_status.setCurrentText("Selecione uma opção")
 
         # Adiciona o texto na janela - [COLOCA O COMPONENTE NA TELA]
-        layout.addRow(titulo)
-        layout.addRow(
+        header_layout.addWidget(logotipo)
+        header_layout.addWidget(titulo)
+        form_layout.addRow(
             "Código do Imóvel:",
             self.input_codigo
         )
 
-        layout.addRow(
+        form_layout.addRow(
             "Endereço do Imóvel:",
             self.input_endereco
         )
 
-        layout.addRow(
+        form_layout.addRow(
             "Bairro do Imóvel:",
             self.input_bairro
         )
 
-        layout.addRow(
+        form_layout.addRow(
             "Cidade do Imóvel:",
             self.input_cidade
         )
-        layout.addRow(
+        form_layout.addRow(
             "Tipo do Imóvel:",
             self.combo_tipo
         )
-        layout.addRow(
+        form_layout.addRow(
             "Finalidade:",
             self.combo_finalidade
         )
-        layout.addRow(
+        form_layout.addRow(
             "Status:",
             self.combo_status
         )
-        layout.addRow(informacao)
-        layout.addRow(versao)
-        layout.addRow(self.tabela)
-        layout.addRow(btn_salvar)
-        layout.addRow(btn_atualizar)
-        layout.addRow(btn_excluir)
+        table_layout.addWidget(self.tabela)
+        buttons_layout.addWidget(btn_salvar)
+        buttons_layout.addWidget(btn_atualizar)
+        buttons_layout.addWidget(btn_excluir)
+        footer_layout.addWidget(informacao)
+        footer_layout.addWidget(versao)
+
+        # Enviando tudo ja organizado
+        main_layout.addLayout(header_layout)
+        main_layout.addLayout(form_layout)
+        main_layout.addLayout(table_layout)
+        main_layout.addLayout(buttons_layout)
+        main_layout.addLayout(footer_layout)
 
         # Aqui diz esta janela usará este layout
-        self.setLayout(layout)
+        self.setLayout(main_layout)
 
     def validar_campos(self):
 
