@@ -3,7 +3,8 @@ from PyQt6.QtWidgets import (
     QFormLayout,
     QLabel,
     QLineEdit,
-    QPushButton
+    QPushButton,
+    QComboBox
 )
 
 class MainWindow(QWidget):
@@ -33,6 +34,27 @@ class MainWindow(QWidget):
         # [BUTTONS] Botões de ação
         btn_salvar = QPushButton("Salvar Imóvel")
         btn_salvar.clicked.connect(self.salvar_imovel)
+        # [COMBOBOX] Adiciona campo de escolhas de opções
+        self.combo_tipo = QComboBox()
+        self.combo_tipo.addItems([
+            "Casa",
+            "Apartamento",
+            "Terreno"
+        ])
+        self.combo_finalidade = QComboBox()
+        self.combo_finalidade.addItems([
+            "Venda",
+            "Locação",
+            "Venda e Locação"
+        ])
+        self.combo_finalidade.setCurrentText("Venda e Locação")
+        self.combo_status = QComboBox()
+        self.combo_status.addItems([
+            "Disponível",
+            "Locado",
+            "Vendido",
+            "A Liberar"
+        ])
         # Adiciona o texto na janela - [COLOCA O COMPONENTE NA TELA]
         layout.addRow(titulo)
         layout.addRow(
@@ -54,6 +76,18 @@ class MainWindow(QWidget):
             "Cidade do Imóvel:",
             self.input_cidade
         )
+        layout.addRow(
+            "Tipo do Imóvel:",
+            self.combo_tipo
+        )
+        layout.addRow(
+            "Finalidade:",
+            self.combo_finalidade
+        )
+        layout.addRow(
+            "Status:",
+            self.combo_status
+        )
         layout.addRow(informacao)
         layout.addRow(versao)
         layout.addRow(btn_salvar)
@@ -64,6 +98,6 @@ class MainWindow(QWidget):
         texto_atual = self.windowTitle()
 
         if texto_atual == "Sistema de Cadastro de Imóveis da Imobiliária":
-            self.setWindowTitle("Clique Detectado")
+            self.setWindowTitle(self.combo_status.currentText())
         else:
             self.setWindowTitle("Sistema de Cadastro de Imóveis da Imobiliária")
