@@ -37,24 +37,30 @@ class MainWindow(QWidget):
         # Define o título da janela
         self.setWindowTitle("Sistema de Cadastro de Imóveis da Imobiliária")
         # Define (Largura x Altura) da janela
-        self.resize(800, 600)
+        self.resize(1200, 800)
 
         # Cria container principal vertical
         main_layout = QVBoxLayout()
+        main_layout.setSpacing(15)
+        main_layout.setContentsMargins(20, 20, 20, 20)
         header_layout = QHBoxLayout()
         form_layout = QFormLayout()
-        table_layout = QFormLayout()
+        table_layout = QVBoxLayout()
         buttons_layout = QHBoxLayout()
         footer_layout = QHBoxLayout()
 
         # [LABELS] Texto que será exibido dentro da janela - [CRIA O COMPONENTE]
         logotipo = QLabel()
-        logotipo.setPixmap(QPixmap("assets/images/pyassessoria.png").scaled(40, 40))
+        logotipo.setPixmap(QPixmap("assets/images/pyassessoria.png").scaled(100, 80))
         titulo = QLabel("Sistema de Cadastro de Imóveis")
         titulo.setObjectName("titulo")
         titulo.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        informacao = QLabel("Sistema desenvolvido em PyQt6")
+        informacao = QLabel("Sistema desenvolvido em PyQt6   -")
         versao = QLabel("Versão 1.0")
+        # [LABELS] ID´S para cada item
+        titulo.setObjectName("titulo")
+        informacao.setObjectName("footerInfo")
+        versao.setObjectName("footerVersion")
 
         # [INPUTS] Campos de texto para usuário digitar, que será exibido dentro da janela - [CRIA O COMPONENTE]
         self.input_codigo = QLineEdit()
@@ -73,6 +79,10 @@ class MainWindow(QWidget):
         btn_atualizar.clicked.connect(self.atualizar_imovel)
         btn_excluir = QPushButton("Excluir Imóvel")
         btn_excluir.clicked.connect(self.excluir_imovel)
+        # [BUTTONS] ID´S para cada botão
+        btn_salvar.setObjectName("btnSalvar")
+        btn_atualizar.setObjectName("btnAtualizar")
+        btn_excluir.setObjectName("btnExcluir")
 
         # [COMBOBOX] Adiciona campo de escolhas de opções
         self.combo_tipo = QComboBox()
@@ -102,8 +112,11 @@ class MainWindow(QWidget):
         self.combo_status.setCurrentText("Selecione uma opção")
 
         # Adiciona o texto na janela - [COLOCA O COMPONENTE NA TELA]
+        header_layout.addStretch()
         header_layout.addWidget(logotipo)
+        header_layout.setSpacing(5)
         header_layout.addWidget(titulo)
+        header_layout.addStretch()
         form_layout.addRow(
             "Código do Imóvel:",
             self.input_codigo
@@ -139,8 +152,10 @@ class MainWindow(QWidget):
         buttons_layout.addWidget(btn_salvar)
         buttons_layout.addWidget(btn_atualizar)
         buttons_layout.addWidget(btn_excluir)
+        footer_layout.addStretch()
         footer_layout.addWidget(informacao)
         footer_layout.addWidget(versao)
+        footer_layout.addStretch()
 
         # Enviando tudo ja organizado
         main_layout.addLayout(header_layout)
@@ -151,6 +166,8 @@ class MainWindow(QWidget):
 
         # Aqui diz esta janela usará este layout
         self.setLayout(main_layout)
+
+    # MÉTODOS DA CLASSE
 
     def validar_campos(self):
 
