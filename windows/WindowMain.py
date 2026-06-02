@@ -1,5 +1,5 @@
 from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QPixmap
+from PyQt6.QtGui import QPixmap, QIcon
 from PyQt6.QtWidgets import (
     QWidget,
     QFormLayout,
@@ -12,6 +12,8 @@ from PyQt6.QtWidgets import (
     QTableWidgetItem,
     QHBoxLayout,
     QVBoxLayout,
+    QHeaderView,
+    QAbstractItemView
 )
 
 class MainWindow(QWidget):
@@ -32,10 +34,26 @@ class MainWindow(QWidget):
             "Finalidade",
             "Status"
         ])
+        self.tabela.horizontalHeader().setSectionResizeMode(
+            QHeaderView.ResizeMode.Stretch
+        )
+        self.tabela.setSelectionBehavior(
+            QTableWidget.SelectionBehavior.SelectRows
+        )
+        self.tabela.setEditTriggers(
+            QAbstractItemView.EditTrigger.NoEditTriggers
+        )
+        self.tabela.setCursor(
+            Qt.CursorShape.ArrowCursor
+        )
         self.tabela.cellClicked.connect(self.selecionar_imovel)
 
         # Define o título da janela
         self.setWindowTitle("Sistema de Cadastro de Imóveis da Imobiliária")
+        # Define o ícone da janela
+        self.setWindowIcon(
+            QIcon("assets/icons/favicon.ico")
+        )
         # Define (Largura x Altura) da janela
         self.resize(1200, 800)
 
@@ -75,10 +93,19 @@ class MainWindow(QWidget):
         # [BUTTONS] Botões de ação
         btn_salvar = QPushButton("Salvar Imóvel")
         btn_salvar.clicked.connect(self.salvar_imovel)
+        btn_salvar.setCursor(
+            Qt.CursorShape.PointingHandCursor
+        )
         btn_atualizar = QPushButton("Atualizar Imóvel")
         btn_atualizar.clicked.connect(self.atualizar_imovel)
+        btn_atualizar.setCursor(
+            Qt.CursorShape.PointingHandCursor
+        )
         btn_excluir = QPushButton("Excluir Imóvel")
         btn_excluir.clicked.connect(self.excluir_imovel)
+        btn_excluir.setCursor(
+            Qt.CursorShape.PointingHandCursor
+        )
         # [BUTTONS] ID´S para cada botão
         btn_salvar.setObjectName("btnSalvar")
         btn_atualizar.setObjectName("btnAtualizar")
