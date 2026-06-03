@@ -153,6 +153,6 @@ Este projeto foi desenvolvido como prática para consolidação dos estudos de P
 
 ## 👨‍💻 Autor
 
-Maicon Dante
+**Maicon Dante**
 
-Projeto desenvolvido para fins acadêmicos e de aprendizado contínuo em Python.
+Projeto desenvolvido para fins acadêmicos e de aprendizado contínuo em Python e programação.
